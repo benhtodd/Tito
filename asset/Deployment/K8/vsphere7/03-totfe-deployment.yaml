@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: titofe
+  labels:
+    name: tito-fe
+    app: tito
+    tier: frontend
+    stage: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tito
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tito
+    spec:
+      containers:
+        - name: tito-fe
+          image: toddbvirtual/tito-fe
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 80
+          env:
+          - name: TITO_SQL_SERVICE_HOST
+            value: 
+          - name: PROXY_NAME
+            value: wavefront-proxy.default.svc.cluster.local
+          - name: PROXY_PORT
+            value: "2878"
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace

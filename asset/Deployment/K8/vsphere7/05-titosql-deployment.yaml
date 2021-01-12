@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  generateName: titosql-
+  labels:
+    name: tito-sql
+    version: "1.5"
+    app: tito
+    stage: prod
+    tier: backend
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy: 
+    type: Recreate
+  selector:
+    matchLabels:
+      tier: backend
+      app: tito
+  template:
+    metadata:
+      labels:
+        tier: backend
+        app: tito
+    spec:
+      containers:
+      - name: tito-sql
+        image: toddbvirtual/tito-sql
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: mysql-password
