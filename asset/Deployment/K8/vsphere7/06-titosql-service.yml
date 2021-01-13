@@ -8,6 +8,6 @@ metadata:
     stage: dev
 spec:
   ports:
-      - port: 3306               # port expose par docker  (pas le port dans le container)
+      - port: 3306               # test port expose par docker  (pas le port dans le container)
   selector:                     # key/value, label permettant de definir le pod cible (doit etre danslabels du pod)
     tiers: tito-sql
