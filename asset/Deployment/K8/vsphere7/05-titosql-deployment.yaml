@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   generateName: titosql-
+  namespace: tito
   labels:
     name: tito-sql
     version: "1.5"
